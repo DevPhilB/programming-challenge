@@ -26,18 +26,23 @@ class AppTest {
     }
 
     @Test
-    void testCSVReaderWithExistingFile() {
-        assertEquals("14", csvReader.getSmallestTemperatureSpreadDay("weather.csv"));
-    }
-
-    @Test
-    void testCSVReaderWithNonExistingFile() {
-        assertEquals("", csvReader.getSmallestTemperatureSpreadDay("weathers.csv"));
-    }
-
-    @Test
     void runFootball() {
         App.main("--football", "football.csv");
     }
 
+    // Own unit tests
+    @Test
+    void testCSVReaderWithNonExistingFile() {
+        assertEquals("", csvReader.findValue("weathers.csv", 0, 1, 2));
+    }
+
+    @Test
+    void testFirstTask() {
+        assertEquals("14", csvReader.findValue("weather.csv", 0, 1, 2));
+    }
+
+    @Test
+    void testSecondTask() {
+        assertEquals("Aston_Villa", csvReader.findValue("football.csv",0, 5,6));
+    }
 }

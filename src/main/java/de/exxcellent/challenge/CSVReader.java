@@ -8,34 +8,31 @@ import java.io.FileReader;
  *
  * @author Philipp Backes
  */
-public class CSVReader {
+public class CSVReader implements Reader {
 
-    /**
-     * Returns the day number of the day with the smallest temperature spread in a CSV file.
-     *
-     * @param  fileName Name of the CSV file.
-     * @return String Day with the smallest temperature spread.
-     */
-    public String getSmallestTemperatureSpreadDay(String fileName) {
-        String day = "";
-        int lastSpread = Integer.MAX_VALUE;
+    @Override
+    public String findValue(String fileName, int valueIndex, int firstSub, int secondSub) {
+        String value = "";
+        int lastAbsoluteDifference = Integer.MAX_VALUE;
         String row = "";
         try {
             String path = getClass().getResource(fileName).getFile();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
             while ((row = bufferedReader.readLine()) != null) {
-                if(day.equals("")) row = bufferedReader.readLine(); // Skip first row
+                if(value.equals("")) row = bufferedReader.readLine(); // Skip first row
                 String[] data = row.split(",");
-                if (Integer.parseInt(data[1]) - Integer.parseInt(data[2]) < lastSpread) {
-                    day = data[0];
-                    lastSpread = Integer.parseInt(data[1]) - Integer.parseInt(data[2]);
+                int absoluteDifference = Math.abs(Integer.parseInt(data[firstSub]) - Integer.parseInt(data[secondSub]));
+                if (absoluteDifference < lastAbsoluteDifference) {
+                    value = data[valueIndex];
+                    lastAbsoluteDifference = absoluteDifference;
                 }
             }
             bufferedReader.close();
         }
         catch(Exception e) { // Handle multiple exceptions at once
+            System.out.println("Check if the file exists and the content allows to return a value!");
             e.printStackTrace();
         }
-        return day;
+        return value;
     }
 }

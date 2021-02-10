@@ -16,13 +16,13 @@ public final class App {
     public static void main(String... args) {
         // Weather task
         CSVReader csvReader = new CSVReader();
-        final String weatherFile = "weather.csv"; // Could be replaced with a CLI argument
-        String dayWithSmallestTempSpread = csvReader.getSmallestTemperatureSpreadDay(weatherFile);
+        final String weatherFile = "weather.csv"; // Option to assign a CLI argument
+        String dayWithSmallestTempSpread = csvReader.findValue(weatherFile, 0, 1, 2);
         System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
 
         // Football task
-        final String footballFile = "football.csv"; // Could be replaced with a CLI argument
-        String teamWithSmallestGoalSpread = "A good team"; // Your goal analysis function call …
+        final String footballFile = "football.csv"; // Option to assign a CLI argument
+        String teamWithSmallestGoalSpread = csvReader.findValue(footballFile,0, 5, 6);
         System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallestGoalSpread);
     }
 }
