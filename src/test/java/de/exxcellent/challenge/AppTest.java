@@ -12,15 +12,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AppTest {
 
     private String successLabel = "not successful";
+    private CSVReader csvReader;
 
     @BeforeEach
     void setUp() {
         successLabel = "successful";
+        csvReader = new CSVReader();
     }
 
     @Test
     void aPointlessTest() {
         assertEquals("successful", successLabel, "My expectations were not met");
+    }
+
+    @Test
+    void testCSVReaderWithExistingFile() {
+        assertEquals("14", csvReader.getSmallestTemperatureSpreadDay("weather.csv"));
+    }
+
+    @Test
+    void testCSVReaderWithNonExistingFile() {
+        assertEquals("", csvReader.getSmallestTemperatureSpreadDay("weathers.csv"));
     }
 
     @Test

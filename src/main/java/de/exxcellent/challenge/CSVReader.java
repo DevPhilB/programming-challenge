@@ -2,7 +2,6 @@ package de.exxcellent.challenge;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * A reader for CSV files.
@@ -17,12 +16,10 @@ public class CSVReader {
      * @param  fileName Name of the CSV file.
      * @return String Day with the smallest temperature spread.
      */
-    public String getSmallestTemperatureSpreadDay(String fileName)
-    {
+    public String getSmallestTemperatureSpreadDay(String fileName) {
         String day = "";
         int lastSpread = Integer.MAX_VALUE;
         String row = "";
-        // Handle IO Exceptions
         try {
             String path = getClass().getResource(fileName).getFile();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
@@ -36,7 +33,7 @@ public class CSVReader {
             }
             bufferedReader.close();
         }
-        catch(IOException e) {
+        catch(Exception e) { // Handle multiple exceptions at once
             e.printStackTrace();
         }
         return day;
