@@ -1,0 +1,4 @@
+# Ignoring generated files by IntelliJ
+.idea
+target
+*.iml
