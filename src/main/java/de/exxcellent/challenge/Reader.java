@@ -1,19 +1,17 @@
 package de.exxcellent.challenge;
 
+import java.util.ArrayList;
+
 /**
- * A simple interface to read a file.
+ * An interface to read single files at once.
  *
  * @author Philipp Backes
  */
 public interface Reader {
     /**
-     * Find a specific value depending on the indices.
+     * Read the whole file and returns the content as ArrayList<String[]>.
      *
-     * @param fileName Name of the file.
-     * @param valueIndex Index of the value.
-     * @param firstSub Index of the first subtraction value.
-     * @param secondSub Index of the second subtraction value.
-     * @return A value or an empty string.
+     * @return The content as an ArrayList<String[]>.
      */
-    String findValue(String fileName, int valueIndex, int firstSub, int secondSub);
+    public ArrayList<String[]> readAll();
 }
