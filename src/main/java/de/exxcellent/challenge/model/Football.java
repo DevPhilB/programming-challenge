@@ -1,14 +1,16 @@
 package de.exxcellent.challenge.model;
 
 /**
- * The model for the important results of the English Premier League.
+ * The model for results of a football team.
+ * Limited here to the required fields but others could be easily added.
  *
  * @author Philipp Backes
  */
 public class Football {
-    private String teamName;
-    private int goals;
-    private int goalsAllowed;
+
+    private final String teamName;
+    private final int goals;
+    private final int goalsAllowed;
 
     /**
      * Constructor for a football model.

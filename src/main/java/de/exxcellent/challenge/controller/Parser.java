@@ -10,11 +10,12 @@ import java.util.ArrayList;
  * @author Philipp Backes
  */
 public interface Parser<T> {
+
     /**
      * Method to parse the content to an ArrayList<String[]>.
      *
      * @param content The content of a file.
      * @return An ArrayList with models of type T.
      */
-    public ArrayList<T> parse(ArrayList<String[]> content);
+    ArrayList<T> parse(ArrayList<String[]> content);
 }

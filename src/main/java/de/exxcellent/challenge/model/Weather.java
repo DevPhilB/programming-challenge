@@ -1,14 +1,16 @@
 package de.exxcellent.challenge.model;
 
 /**
- * The model for the important daily weather data of a single month.
+ * The model for daily weather data.
+ * Limited here to the required fields but others could be easily added.
  *
  * @author Philipp Backes
  */
 public class Weather {
-    private String day;
-    private int maximumTemperature;
-    private int minimumTemperature;
+
+    private final String day;
+    private final int maximumTemperature;
+    private final int minimumTemperature;
 
     /**
      * Constructor for a weather model.

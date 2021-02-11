@@ -19,29 +19,34 @@ public final class App {
     public static void main(String... args) {
         String weatherFilePath = "";
         String footballFilePath = "";
-        // Check for CLI arguments: --weather and/or --football
+        // Check for CLI arguments: --weather and/or --football.
         try {
-            if(args.length >= 2 && args[0].equals("--weather")) {
+            if (args.length >= 2 && args[0].equals("--weather")) {
                 weatherFilePath = App.class.getResource(args[1]).getFile();
-            } else if(args.length >= 2 && args[0].equals("--football")) {
+            } else if (args.length >= 2 && args[0].equals("--football")) {
                 footballFilePath = App.class.getResource(args[1]).getFile();
             }
-            if(args.length >= 4 && args[2].equals("--weather")) {
+            if (args.length >= 4 && args[2].equals("--weather")) {
                 weatherFilePath = App.class.getResource(args[3]).getFile();
-            } else if(args.length >= 4 && args[2].equals("--football")) {
+            } else if (args.length >= 4 && args[2].equals("--football")) {
                 footballFilePath = App.class.getResource(args[3]).getFile();
             }
-        } catch(NullPointerException e) {
-            // In case of invalid arguments, reset both strings.
-            weatherFilePath = "";
-            footballFilePath = "";
-            e.getStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        // In case of missing or empty file name(s), try these fallbacks.
+        try {
+            if (weatherFilePath.isEmpty()) {
+                weatherFilePath = App.class.getResource("weather.csv").getFile();
+            }
+            if (footballFilePath.isEmpty()) {
+                footballFilePath = App.class.getResource("football.csv").getFile();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
 
-        // Execute weather task
-        if(weatherFilePath.equals("")) {
-            weatherFilePath = App.class.getResource("weather.csv").getFile();
-        }
+        // Execute weather task (1).
         CSVReader csvWeatherReader = new CSVReader(weatherFilePath);
         WeatherController weatherController = new WeatherController();
         String day = weatherController.getSmallestTemperatureSpreadDay(
@@ -49,10 +54,7 @@ public final class App {
         );
         System.out.printf("Day with smallest temperature spread : %s%n", day);
 
-        // Execute football task
-        if(footballFilePath.equals("")) {
-            footballFilePath = App.class.getResource("football.csv").getFile();
-        }
+        // Execute football task (2).
         CSVReader csFootballReader = new CSVReader(footballFilePath);
         FootballController footballController = new FootballController();
         String teamName = footballController.getSmallestAbsoluteGoalDifferenceTeamName(
