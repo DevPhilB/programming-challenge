@@ -1,6 +1,6 @@
 package de.exxcellent.challenge;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An interface to read single files at once.
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public interface Reader {
 
     /**
-     * Read the whole file and returns the content as ArrayList<String[]>.
+     * Read the whole file and returns the content as List<String[]>.
      *
-     * @return The content as an ArrayList<String[]>.
+     * @return The content as a List<String[]>.
      */
-    ArrayList<String[]> readAll();
+    List<String[]> readAll();
 }

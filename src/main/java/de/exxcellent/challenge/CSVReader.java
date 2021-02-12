@@ -1,8 +1,8 @@
 package de.exxcellent.challenge;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -12,33 +12,27 @@ import java.util.ArrayList;
  */
 public class CSVReader implements Reader {
 
-    // Enables efficient reading of text data.
-    private BufferedReader bufferedReader;
+    private final String filePath;
 
     /**
      * Constructor expect a valid file path.
      *
      * @param filePath Valid CSV file path.
      */
-    public CSVReader(String filePath){
-        try {
-            this.bufferedReader = new BufferedReader(new FileReader(filePath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public CSVReader(String filePath) {
+        this.filePath = filePath;
     }
 
     @Override
     public ArrayList<String[]> readAll() {
         ArrayList<String[]> content = new ArrayList<>();
-        try {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
             String row;
             bufferedReader.readLine(); // Skip first row
             while ((row = bufferedReader.readLine()) != null) {
                 content.add(row.split(","));
             }
-            bufferedReader.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return content;

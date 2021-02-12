@@ -1,6 +1,6 @@
 package de.exxcellent.challenge.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A generic parser interface to parse content (e.g. text lines).
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public interface Parser<T> {
 
     /**
-     * Method to parse the content to an ArrayList<String[]>.
+     * Method to parse the content to a List<String[]>.
      *
      * @param content The content of a file.
-     * @return An ArrayList with models of type T.
+     * @return A list with models of type T.
      */
-    ArrayList<T> parse(ArrayList<String[]> content);
+    List<T> parse(List<String[]> content);
 }

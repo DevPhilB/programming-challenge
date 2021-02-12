@@ -1,7 +1,11 @@
 package de.exxcellent.challenge;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
 import de.exxcellent.challenge.controller.FootballController;
 import de.exxcellent.challenge.controller.WeatherController;
+
+import java.util.Optional;
 
 /**
  * The entry class for your solution.
@@ -12,42 +16,33 @@ import de.exxcellent.challenge.controller.WeatherController;
  */
 public final class App {
 
+    @Parameter(names={"--weather"})
+    private String weatherFilePath;
+
+    @Parameter(names={"--football"})
+    private String footballFilePath;
+
     /**
      * This is the main entry method of your program.
      * @param args The CLI arguments passed.
      */
     public static void main(String... args) {
-        String weatherFilePath = "";
-        String footballFilePath = "";
+        App app = new App();
         // Check for CLI arguments: --weather and/or --football.
-        try {
-            if (args.length >= 2 && args[0].equals("--weather")) {
-                weatherFilePath = App.class.getResource(args[1]).getFile();
-            } else if (args.length >= 2 && args[0].equals("--football")) {
-                footballFilePath = App.class.getResource(args[1]).getFile();
-            }
-            if (args.length >= 4 && args[2].equals("--weather")) {
-                weatherFilePath = App.class.getResource(args[3]).getFile();
-            } else if (args.length >= 4 && args[2].equals("--football")) {
-                footballFilePath = App.class.getResource(args[3]).getFile();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        JCommander.newBuilder()
+                .addObject(app)
+                .build()
+                .parse(args);
         // In case of missing or empty file name(s), try these fallbacks.
-        try {
-            if (weatherFilePath.isEmpty()) {
-                weatherFilePath = App.class.getResource("weather.csv").getFile();
-            }
-            if (footballFilePath.isEmpty()) {
-                footballFilePath = App.class.getResource("football.csv").getFile();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (Optional.ofNullable(app.weatherFilePath).isEmpty()) {
+            app.weatherFilePath = "src/main/resources/de/exxcellent/challenge/weather.csv";
+        }
+        if (Optional.ofNullable(app.footballFilePath).isEmpty()) {
+            app.footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
         }
 
         // Execute weather task (1).
-        CSVReader csvWeatherReader = new CSVReader(weatherFilePath);
+        CSVReader csvWeatherReader = new CSVReader(app.weatherFilePath);
         WeatherController weatherController = new WeatherController();
         String day = weatherController.getSmallestTemperatureSpreadDay(
                 weatherController.parse(csvWeatherReader.readAll())
@@ -55,7 +50,7 @@ public final class App {
         System.out.printf("Day with smallest temperature spread : %s%n", day);
 
         // Execute football task (2).
-        CSVReader csFootballReader = new CSVReader(footballFilePath);
+        CSVReader csFootballReader = new CSVReader(app.footballFilePath);
         FootballController footballController = new FootballController();
         String teamName = footballController.getSmallestAbsoluteGoalDifferenceTeamName(
                 footballController.parse(csFootballReader.readAll())

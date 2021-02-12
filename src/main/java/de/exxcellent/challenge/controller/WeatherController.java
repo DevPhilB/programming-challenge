@@ -3,6 +3,7 @@ package de.exxcellent.challenge.controller;
 import de.exxcellent.challenge.model.Weather;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The weather controller handles the parsing to weather models and returns specific weather data.
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class WeatherController implements Parser<Weather> {
 
     @Override
-    public ArrayList<Weather> parse(ArrayList<String[]> content) {
+    public ArrayList<Weather> parse(List<String[]> content) {
         ArrayList<Weather> models = new ArrayList<>();
         content.forEach((row) -> models.add(new Weather(row[0], Integer.parseInt(row[1]), Integer.parseInt(row[2]))));
         return models;
