@@ -2,6 +2,8 @@ package de.exxcellent.challenge;
 
 import de.exxcellent.challenge.controller.FootballController;
 import de.exxcellent.challenge.controller.WeatherController;
+import de.exxcellent.challenge.model.Football;
+import de.exxcellent.challenge.model.Weather;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +26,10 @@ class AppTest {
 
     @BeforeEach
     void setUp() {
-        csvWeatherReader = new CSVReader(getClass().getResource("weather.csv").getFile());
-        csvFootballReader = new CSVReader(getClass().getResource("football.csv").getFile());
+        String weatherFilePath = "src/main/resources/de/exxcellent/challenge/weather.csv";
+        csvWeatherReader = new CSVReader(weatherFilePath);
+        String footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
+        csvFootballReader = new CSVReader(footballFilePath);
         weatherController = new WeatherController();
         footballController = new FootballController();
     }
@@ -59,18 +63,44 @@ class AppTest {
 
     @Test
     void testWeatherControllerGetSmallestAbsoluteGoalDifferenceTeamName() {
-        assertEquals("Aston_Villa", footballController.getSmallestAbsoluteGoalDifferenceTeamName(
-                footballController.parse(csvFootballReader.readAll())
-        ));
+        assertEquals("Aston_Villa",
+                footballController.getSmallestAbsoluteGoalDifferenceTeamName(
+                    footballController.parse(csvFootballReader.readAll())
+                )
+        );
     }
 
     @Test
-    void testCLIArguments() {
-        App.main("--weather", "weather.csv", "--football", "football.csv");
+    void testWeatherModelClass() {
+        String day = "1";
+        int maximumTemperature = 42;
+        int minimumTemperature = 17;
+        Weather weather = new Weather(day, maximumTemperature, minimumTemperature);
+        assertEquals(day, weather.getDay());
+        assertEquals(maximumTemperature, weather.getMaximumTemperature());
+        assertEquals(minimumTemperature, weather.getMinimumTemperature());
     }
 
     @Test
-    void testApp() {
+    void testFootballModelClass() {
+        String teamName = "SSV Ulm";
+        int goals = 2;
+        int goalsAllowed = 42;
+        Football football = new Football(teamName, goals, goalsAllowed);
+        assertEquals(teamName, football.getTeamName());
+        assertEquals(goals, football.getGoals());
+        assertEquals(goalsAllowed, football.getGoalsAllowed());
+    }
+
+    @Test
+    void testAppWithCLIArguments() {
+        App.main("--weather", "src/main/resources/de/exxcellent/challenge/weather.csv",
+                "--football", "src/main/resources/de/exxcellent/challenge/football.csv"
+        );
+    }
+
+    @Test
+    void testAppWithoutCLIArguments() {
         App.main();
     }
 }
