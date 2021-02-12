@@ -5,8 +5,6 @@ import com.beust.jcommander.Parameter;
 import de.exxcellent.challenge.controller.FootballController;
 import de.exxcellent.challenge.controller.WeatherController;
 
-import java.util.Optional;
-
 /**
  * The entry class for your solution.
  * This class is only aimed as starting point and not intended as baseline for your software design.
@@ -17,10 +15,10 @@ import java.util.Optional;
 public final class App {
 
     @Parameter(names={"--weather"})
-    private String weatherFilePath;
+    private String weatherFilePath = "src/main/resources/de/exxcellent/challenge/weather.csv";
 
     @Parameter(names={"--football"})
-    private String footballFilePath;
+    private String footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
 
     /**
      * This is the main entry method of your program.
@@ -28,18 +26,11 @@ public final class App {
      */
     public static void main(String... args) {
         App app = new App();
-        // Check for CLI arguments: --weather and/or --football.
+        // Check for CLI arguments or use default file paths.
         JCommander.newBuilder()
                 .addObject(app)
                 .build()
                 .parse(args);
-        // In case of missing or empty file name(s), try these fallbacks.
-        if (Optional.ofNullable(app.weatherFilePath).isEmpty()) {
-            app.weatherFilePath = "src/main/resources/de/exxcellent/challenge/weather.csv";
-        }
-        if (Optional.ofNullable(app.footballFilePath).isEmpty()) {
-            app.footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
-        }
 
         // Execute weather task (1).
         CSVReader csvWeatherReader = new CSVReader(app.weatherFilePath);
